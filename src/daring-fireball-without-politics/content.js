@@ -5,13 +5,27 @@ function filterDF(keywords) {
     const dts = list.querySelectorAll("dt");
     const dds = list.querySelectorAll("dd");
 
+    let hiddenCount = 0;
+
     dds.forEach((dd, i) => {
       const text = dd.innerText.toLowerCase();
       if (keywords.some(k => text.includes(k.toLowerCase().trim()))) {
         dd.style.display = "none";
         if (dts[i]) dts[i].style.display = "none";
+        hiddenCount++;
       }
     });
+
+    // If all entries in this <dl> are hidden, hide the <dl> itself
+    if (hiddenCount === dds.length) {
+      list.style.display = "none";
+
+      // Also hide the date header before this list, if present
+      const prev = list.previousElementSibling;
+      if (prev && prev.classList.contains("dateline")) {
+        prev.style.display = "none";
+      }
+    }
   });
 }
 
@@ -24,6 +38,5 @@ function runFilter() {
 
 document.addEventListener("DOMContentLoaded", runFilter);
 
-// Watch for new content
 const observer = new MutationObserver(runFilter);
 observer.observe(document.body, { childList: true, subtree: true });
