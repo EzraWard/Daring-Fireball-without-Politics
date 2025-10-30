@@ -4,12 +4,10 @@
 chrome.runtime.onInstalled.addListener(details => {
   if (details.reason === 'install') {
     const defaults = [
-      'politics',
-      'election',
-      'government',
-      'policy',
-      'president',
-      'congress'
+      'trump',
+      'biden',
+      'cdc',
+      'kentaji'
     ];
     chrome.storage.sync.get({ blockedKeywords: [] }, data => {
       if (!data.blockedKeywords || data.blockedKeywords.length === 0) {
