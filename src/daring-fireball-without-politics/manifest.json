@@ -1,15 +1,25 @@
 {
   "manifest_version": 3,
   "name": "Daring Fireball Without Politics",
-  "version": "1.2",
+  "version": "1.3",
   "description": "Hide posts on Daring Fireball that include political commentary.",
   "permissions": ["storage"],
   "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
       "matches": ["*://daringfireball.net/*"],
       "js": ["content.js"],
       "run_at": "document_idle"
     }
-  ]
+  ],
+  "icons": {
+    "16": "chromium_icon_16x16.png",
+    "32": "chromium_icon_32x32.png",
+    "48": "chromium_icon_48x48.png",
+    "64": "chromium_icon_64x64.png",
+    "128": "chromium_icon_128x128.png"
+  }
 }
