@@ -5,6 +5,9 @@
   "description": "Hide posts on Daring Fireball that include political commentary.",
   "permissions": ["storage"],
   "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
       "matches": ["*://daringfireball.net/*"],
