@@ -2,19 +2,175 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="color-scheme" content="light dark">
   <title>Daring Fireball Filter Options</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; }
-    textarea { width: 100%; height: 150px; }
-    button { margin-top: 10px; padding: 5px 10px; }
+    :root {
+      color-scheme: light dark;
+      --bg: #ffffff;
+      --fg: #1f2328;
+      --muted: #59636e;
+      --border: #d0d7de;
+      --panel: #f6f8fa;
+      --button: #f6f8fa;
+      --button-hover: #eef1f4;
+      --accent: #0969da;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0d1117;
+        --fg: #f0f6fc;
+        --muted: #9da7b3;
+        --border: #30363d;
+        --panel: #161b22;
+        --button: #21262d;
+        --button-hover: #30363d;
+        --accent: #58a6ff;
+      }
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    h2 {
+      margin-top: 28px;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--panel);
+    }
+
+    .summary {
+      margin: 0;
+      color: var(--fg);
+      font-weight: 600;
+    }
+
+    .summary-note {
+      margin-top: 6px;
+      margin-bottom: 0;
+    }
+
+    .setting {
+      display: flex;
+      gap: 12px;
+      margin-top: 14px;
+      align-items: flex-start;
+    }
+
+    .setting input {
+      margin-top: 2px;
+    }
+
+    .setting strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    textarea {
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 220px;
+      margin-top: 0;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--fg);
+      resize: vertical;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    button {
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--button);
+      color: var(--fg);
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: var(--button-hover);
+    }
+
+    #status {
+      min-height: 1.5em;
+      color: var(--muted);
+    }
+
+    .help {
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+
+    .help strong {
+      color: var(--accent);
+    }
   </style>
 </head>
 <body>
-  <h1>Daring Fireball Filter Options</h1>
-  <p>Enter blocked keywords, one per line:</p>
-  <textarea id="keywords"></textarea><br>
-  <button id="save">Save</button>
-  <p id="status"></p>
+  <main>
+    <h1>Daring Fireball Filter Options</h1>
+    <p>Manage the keywords and behavior the extension uses when it filters Daring Fireball. Matching checks both the linked post title and summary using simple substring matching.</p>
+
+    <h2 id="settings-heading">Behavior</h2>
+    <section class="card" aria-labelledby="settings-heading">
+      <p id="settings-summary" class="summary"></p>
+      <p id="keyword-summary" class="summary-note"></p>
+
+      <label class="setting" for="filteringEnabled">
+        <input id="filteringEnabled" type="checkbox">
+        <span>
+          <strong>Enable filtering</strong>
+          Apply your keyword list on Daring Fireball pages.
+        </span>
+      </label>
+
+      <label class="setting" for="softHideEnabled">
+        <input id="softHideEnabled" type="checkbox">
+        <span>
+          <strong>Collapse matches instead of fully hiding them</strong>
+          Show a small placeholder with a reveal button for each filtered post.
+        </span>
+      </label>
+    </section>
+
+    <h2 id="keywords-heading">Blocked Keywords</h2>
+    <textarea id="keywords" spellcheck="false"></textarea>
+    <p class="help"><strong>Tip:</strong> one keyword per line. For example, entering <code>election</code> will also match text like <code>midterm election roundup</code>.</p>
+    <div class="actions">
+      <button id="save">Save</button>
+      <button id="reset">Reset to Defaults</button>
+    </div>
+    <p id="status" aria-live="polite"></p>
+  </main>
+  <script src="shared.js"></script>
   <script src="options.js"></script>
 </body>
 </html>

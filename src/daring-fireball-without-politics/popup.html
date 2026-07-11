@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="color-scheme" content="light dark">
+  <title>Daring Fireball Without Politics</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #ffffff;
+      --fg: #1f2328;
+      --muted: #59636e;
+      --border: #d0d7de;
+      --panel: #f6f8fa;
+      --button: #f6f8fa;
+      --button-hover: #eef1f4;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0d1117;
+        --fg: #f0f6fc;
+        --muted: #9da7b3;
+        --border: #30363d;
+        --panel: #161b22;
+        --button: #21262d;
+        --button-hover: #30363d;
+      }
+    }
+
+    body {
+      width: 320px;
+      margin: 0;
+      padding: 16px;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    p {
+      margin-top: 0;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .panel {
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--panel);
+    }
+
+    .setting {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .setting:last-child {
+      margin-bottom: 0;
+    }
+
+    .setting strong {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 0.92rem;
+    }
+
+    .setting span {
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    .stats {
+      margin: 14px 0 12px;
+      font-size: 0.92rem;
+    }
+
+    .actions {
+      display: grid;
+      gap: 8px;
+    }
+
+    button {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--button);
+      color: var(--fg);
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: var(--button-hover);
+    }
+
+    button:disabled {
+      cursor: default;
+      opacity: 0.6;
+    }
+
+    #pageStatus {
+      min-height: 2.8em;
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Daring Fireball Without Politics</h1>
+  <p id="pageStatus">Checking the current page...</p>
+
+  <section class="panel">
+    <label class="setting" for="filteringEnabled">
+      <input id="filteringEnabled" type="checkbox">
+      <span>
+        <strong>Enable filtering</strong>
+        Turn keyword filtering on or off globally.
+      </span>
+    </label>
+
+    <label class="setting" for="softHideEnabled">
+      <input id="softHideEnabled" type="checkbox">
+      <span>
+        <strong>Use collapsed placeholders</strong>
+        Show a reveal button instead of removing matching posts completely.
+      </span>
+    </label>
+  </section>
+
+  <p class="stats" id="keywordCount"></p>
+
+  <div class="actions">
+    <button id="togglePageReveal" type="button">Show hidden posts on this page</button>
+    <button id="openOptions" type="button">Manage keywords</button>
+  </div>
+
+  <script src="shared.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

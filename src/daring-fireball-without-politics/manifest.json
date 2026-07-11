@@ -1,17 +1,21 @@
 {
   "manifest_version": 3,
   "name": "Daring Fireball Without Politics",
-  "version": "1.3",
+  "version": "1.4.0",
   "description": "Hide posts on Daring Fireball that include political commentary.",
   "permissions": ["storage"],
   "options_page": "options.html",
+  "action": {
+    "default_title": "Daring Fireball Without Politics",
+    "default_popup": "popup.html"
+  },
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
       "matches": ["*://daringfireball.net/*"],
-      "js": ["content.js"],
+      "js": ["shared.js", "content.js"],
       "run_at": "document_idle"
     }
   ],
