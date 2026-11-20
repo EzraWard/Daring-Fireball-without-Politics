@@ -26,6 +26,12 @@ function render() {
     return;
   }
 
+  if (currentPageState.isPermalinkPage) {
+    setPageStatus("Individual posts are always shown. Filtering applies to listing pages.");
+    togglePageRevealButton.disabled = true;
+    return;
+  }
+
   if (!currentSettings.filteringEnabled) {
     setPageStatus("Filtering is off for all pages.");
     togglePageRevealButton.disabled = true;

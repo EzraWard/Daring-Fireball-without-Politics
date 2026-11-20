@@ -4,22 +4,20 @@ let pageRevealAll = false;
 let rerenderTimeout = null;
 let observer = null;
 const individuallyRevealedEntries = new Set();
+const entryKeys = new WeakMap();
+let nextEntryKey = 0;
+// Direct post visits are intentional; filter only when browsing listings.
+const isPermalinkPage = /^\/(?:linked\/\d{4}\/\d{2}\/\d{2}|\d{4}\/\d{2})\/[^/]+\/?$/.test(location.pathname);
 
 function findMatchingKeyword(text, keywords) {
   return keywords.find(keyword => text.includes(keyword)) || null;
 }
 
 function getEntryKey(dt, dd, listIndex, entryIndex) {
-  const link = dt ? dt.querySelector("a[href]") : null;
-
-  if (link && link.href) {
-    return `href:${link.href}`;
+  if (!entryKeys.has(dd)) {
+    entryKeys.set(dd, `entry:${++nextEntryKey}`);
   }
-
-  const title = dt ? dt.textContent.trim() : "";
-  const summary = dd.textContent.trim().slice(0, 80);
-
-  return `entry:${listIndex}:${entryIndex}:${title}|${summary}`;
+  return entryKeys.get(dd);
 }
 
 function findPlaceholder(list, entryKey) {
@@ -161,6 +159,10 @@ function filterDF(nextSettings) {
 }
 
 function applyFilter() {
+  if (isPermalinkPage) {
+    return;
+  }
+
   if (observer) {
     observer.disconnect();
   }
@@ -212,6 +214,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "GET_PAGE_STATE") {
     sendResponse({
       supported: true,
+      isPermalinkPage,
       hiddenCount: hiddenMatchCount,
       pageRevealAll,
       filteringEnabled: settings.filteringEnabled,
@@ -222,10 +225,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
   if (message.type === "SET_PAGE_REVEAL") {
     pageRevealAll = Boolean(message.reveal);
+    if (!pageRevealAll) {
+      individuallyRevealedEntries.clear();
+    }
     applyFilter();
 
     sendResponse({
       supported: true,
+      isPermalinkPage,
       hiddenCount: hiddenMatchCount,
       pageRevealAll
     });

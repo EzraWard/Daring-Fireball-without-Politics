@@ -44,6 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     chrome.storage.sync.set(settings, () => {
+      if (chrome.runtime.lastError) {
+        document.getElementById("status").textContent = `Could not save settings: ${chrome.runtime.lastError.message}`;
+        return;
+      }
       setKeywordsValue(settings.blockedKeywords);
       updateSummaries(settings);
       showStatus("Saved settings.");
@@ -54,6 +58,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const defaults = DFWP_SHARED.getDefaultSettings();
 
     chrome.storage.sync.set(defaults, () => {
+      if (chrome.runtime.lastError) {
+        document.getElementById("status").textContent = `Could not reset settings: ${chrome.runtime.lastError.message}`;
+        return;
+      }
       setKeywordsValue(defaults.blockedKeywords);
       filteringEnabledElement.checked = defaults.filteringEnabled;
       softHideEnabledElement.checked = defaults.softHideEnabled;

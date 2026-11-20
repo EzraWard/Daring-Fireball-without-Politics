@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Daring Fireball Without Politics",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Hide posts on Daring Fireball that include political commentary.",
   "permissions": ["storage"],
   "options_page": "options.html",

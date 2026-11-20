@@ -4,6 +4,7 @@ A browser extension that allows for blocking of posts containing political comme
 ## Notes
 
 - Filters Daring Fireball entries by matching blocked keywords against both the post title and summary text.
+- Individual post permalinks are always shown, including visits from external links; filtering applies to listing pages.
 - Stores blocked keywords in `chrome.storage.sync`; no data is sent anywhere else.
 - The options page follows the system light/dark theme automatically.
 - Includes a toolbar popup for quick filtering controls and page-level reveal actions.
