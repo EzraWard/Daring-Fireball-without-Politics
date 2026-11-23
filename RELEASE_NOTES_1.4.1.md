@@ -2,7 +2,7 @@
 
 - Direct links to individual posts now remain visible, including visits from X.com and other sites.
 - Posts linking to the same destination now have independent reveal controls.
-- “Hide filtered posts again” now also hides individually revealed posts.
+- “Hide filtered posts again” is available even after you individually reveal the last filtered post on a page.
 - Failed keyword saves and resets now display an error and preserve your edits.
 
 Filtering on listing pages retains its existing scope. No new permissions are requested.
