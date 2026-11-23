@@ -1,5 +1,6 @@
 let settings = DFWP_SHARED.getDefaultSettings();
 let hiddenMatchCount = 0;
+let revealedMatchCount = 0;
 let pageRevealAll = false;
 let rerenderTimeout = null;
 let observer = null;
@@ -104,6 +105,7 @@ function ensureHiddenStyle() {
 function filterDF(nextSettings) {
   const items = document.querySelectorAll("dl.linkedlist");
   hiddenMatchCount = 0;
+  revealedMatchCount = 0;
 
   items.forEach((list, listIndex) => {
     const dts = list.querySelectorAll("dt");
@@ -122,6 +124,10 @@ function filterDF(nextSettings) {
       const isMatch = Boolean(matchedKeyword);
       const isEntryRevealed = pageRevealAll || individuallyRevealedEntries.has(entryKey);
       const shouldHideEntry = isMatch && !isEntryRevealed;
+
+      if (isMatch && isEntryRevealed) {
+        revealedMatchCount += 1;
+      }
 
       activeEntryKeys.add(entryKey);
 
@@ -216,6 +222,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       supported: true,
       isPermalinkPage,
       hiddenCount: hiddenMatchCount,
+      revealedCount: revealedMatchCount,
       pageRevealAll,
       filteringEnabled: settings.filteringEnabled,
       softHideEnabled: settings.softHideEnabled
@@ -234,6 +241,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       supported: true,
       isPermalinkPage,
       hiddenCount: hiddenMatchCount,
+      revealedCount: revealedMatchCount,
       pageRevealAll
     });
   }

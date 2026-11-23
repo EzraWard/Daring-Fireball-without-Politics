@@ -10,6 +10,10 @@ function setPageStatus(message) {
   document.getElementById("pageStatus").textContent = message;
 }
 
+function canHideRevealedPosts() {
+  return currentPageState.pageRevealAll || currentPageState.revealedCount > 0;
+}
+
 function render() {
   const filteringEnabledElement = document.getElementById("filteringEnabled");
   const softHideEnabledElement = document.getElementById("softHideEnabled");
@@ -38,7 +42,7 @@ function render() {
     return;
   }
 
-  if (currentPageState.pageRevealAll) {
+  if (canHideRevealedPosts()) {
     setPageStatus("Filtered posts are temporarily revealed on this page.");
     togglePageRevealButton.textContent = "Hide filtered posts again";
     togglePageRevealButton.disabled = false;
@@ -51,10 +55,8 @@ function render() {
       : "No posts are currently filtered on this page."
   );
 
-  togglePageRevealButton.textContent = currentPageState.pageRevealAll
-    ? "Hide filtered posts again"
-    : "Show hidden posts on this page";
-  togglePageRevealButton.disabled = currentPageState.hiddenCount === 0 && !currentPageState.pageRevealAll;
+  togglePageRevealButton.textContent = "Show hidden posts on this page";
+  togglePageRevealButton.disabled = currentPageState.hiddenCount === 0;
 }
 
 function withActiveTab(callback) {
@@ -128,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   togglePageRevealButton.addEventListener("click", () => {
     sendMessageToActiveTab(
-      { type: "SET_PAGE_REVEAL", reveal: !currentPageState.pageRevealAll },
+      { type: "SET_PAGE_REVEAL", reveal: !canHideRevealedPosts() },
       response => {
         currentPageState = response || currentPageState;
         render();
